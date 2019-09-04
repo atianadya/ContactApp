@@ -20,6 +20,9 @@
                 android:id="@+id/firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="30"
+                android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/labelFirstName" />
 
         <TextView
@@ -28,12 +31,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/label_last_name"
+
                 app:layout_constraintTop_toBottomOf="@id/firstName" />
 
         <EditText
                 android:id="@+id/lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="30"
+                android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/labelLastName" />
 
         <TextView
@@ -49,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="3"
                 app:layout_constraintTop_toBottomOf="@id/labelAge" />
 
         <TextView
@@ -63,7 +71,7 @@
                 android:id="@+id/photoUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textUri"
+                android:inputType="textUri|textMultiLine"
                 app:layout_constraintTop_toBottomOf="@id/labelPhotoUrl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

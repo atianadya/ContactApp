@@ -103,6 +103,7 @@ class DetailActivity : BaseActivity<DetailViewModelType>() {
 
         setPhoto(data.photo)
         iconEndFirst.setImageResource(R.drawable.ic_delete)
+        iconEndSecond.visibility = View.VISIBLE
         iconEndFirst.setOnClickListener { viewModel.inputs.onClickDelete() }
         iconEndSecond.setOnClickListener { showEditFragment() }
     }
