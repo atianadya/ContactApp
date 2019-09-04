@@ -29,7 +29,7 @@
                 android:id="@+id/addContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="32dp"
                 android:contentDescription="@string/label_add_contact"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

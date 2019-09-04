@@ -23,12 +23,18 @@ class DetailEditFragment : BaseFragment<DetailEditViewModelType>() {
     @Inject
     lateinit var wireframe: DetailEditWireframe
 
-    var data: ContactCardItemViewModel? = null
+    interface Navigate {
+        fun changeFragment(data: ContactCardItemViewModel)
+    }
+
+    private var data: ContactCardItemViewModel? = null
+    private var listener: Navigate? = null
 
     companion object {
-        fun newFragment(data: ContactCardItemViewModel?) : DetailEditFragment {
+        fun newFragment(data: ContactCardItemViewModel?, listener: Navigate) : DetailEditFragment {
             val fragment = DetailEditFragment()
             data?.let{fragment.data = data}
+            fragment.listener = listener
 
             return fragment
         }
@@ -111,6 +117,11 @@ class DetailEditFragment : BaseFragment<DetailEditViewModelType>() {
         viewModel.outputs.shouldShowLoading
             .subscribe {
                 switchProgressDialogState(it)
+            }.disposedBy(compositeDisposable)
+
+        viewModel.outputs.shouldNavigate
+            .subscribe {
+                listener?.changeFragment(it)
             }.disposedBy(compositeDisposable)
     }
 }

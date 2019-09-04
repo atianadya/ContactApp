@@ -56,14 +56,7 @@ class DetailActivity : BaseActivity<DetailViewModelType>() {
         val frag = DetailViewFragment.newFragment(data)
         supportFragmentManager.beginTransaction().replace(R.id.detailContainer, frag).commit()
 
-        Glide.with(this)
-            .load(intent.getStringExtra(DetailWireframe.INTENT_PHOTO_URL).orEmpty())
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.default_person)
-                    .centerCrop()
-            )
-            .into(photo)
+        setPhoto(intent.getStringExtra(DetailWireframe.INTENT_PHOTO_URL).orEmpty())
     }
 
     private fun bindViewEvents() {
@@ -89,7 +82,12 @@ class DetailActivity : BaseActivity<DetailViewModelType>() {
     }
 
     private fun showEditFragment() {
-        val frag = DetailEditFragment.newFragment(data)
+        val frag = DetailEditFragment.newFragment(data, object : DetailEditFragment.Navigate {
+            override fun changeFragment(data: ContactCardItemViewModel) {
+                showViewFragment(data)
+            }
+
+        })
         supportFragmentManager.beginTransaction().replace(R.id.detailContainer, frag).commit()
 
         iconEndSecond.visibility = View.INVISIBLE
@@ -99,7 +97,24 @@ class DetailActivity : BaseActivity<DetailViewModelType>() {
         }
     }
 
-    private fun showViewFragment() {
+    private fun showViewFragment(data: ContactCardItemViewModel) {
+        val frag = DetailViewFragment.newFragment(data)
+        supportFragmentManager.beginTransaction().replace(R.id.detailContainer, frag).commit()
 
+        setPhoto(data.photo)
+        iconEndFirst.setImageResource(R.drawable.ic_delete)
+        iconEndFirst.setOnClickListener { viewModel.inputs.onClickDelete() }
+        iconEndSecond.setOnClickListener { showEditFragment() }
+    }
+
+    private fun setPhoto(photoUrl: String) {
+        Glide.with(this)
+            .load(photoUrl)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.default_person)
+                    .centerCrop()
+            )
+            .into(photo)
     }
 }

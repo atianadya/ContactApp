@@ -33,6 +33,7 @@ interface DetailEditViewModelType : ViewModelType {
         val shouldShowOutput: Observable<String>
         val shouldBackToMain: Observable<Boolean>
         val shouldShowLoading: Observable<Boolean>
+        val shouldNavigate: Observable<ContactCardItemViewModel>
     }
 }
 
@@ -46,6 +47,7 @@ class DetailEditViewModel(private val editContactDetailUseCase: EditContactDetai
     val showOutputSubject = PublishSubject.create<String>()
     val backToMainSubject = PublishSubject.create<Boolean>()
     val showLoadingSubject = PublishSubject.create<Boolean>()
+    val navigateSubject = PublishSubject.create<ContactCardItemViewModel>()
 
     override val inputs: DetailEditViewModelType.Inputs
         get() = this
@@ -58,6 +60,8 @@ class DetailEditViewModel(private val editContactDetailUseCase: EditContactDetai
         get() = backToMainSubject
     override val shouldShowLoading: Observable<Boolean>
         get() = showLoadingSubject
+    override val shouldNavigate: Observable<ContactCardItemViewModel>
+        get() = navigateSubject
 
     override fun onViewLoaded(data: ContactCardItemViewModel) {
         this.data = data
@@ -106,7 +110,8 @@ class DetailEditViewModel(private val editContactDetailUseCase: EditContactDetai
         override fun onSuccess(t: ContactDetailModel) {
             showLoadingSubject.onNext(false)
             showOutputSubject.onNext(t.message)
-            backToMainSubject.onNext(true)
+//            backToMainSubject.onNext(true)
+            navigateSubject.onNext(data)
         }
 
         override fun onError(e: Throwable) {
