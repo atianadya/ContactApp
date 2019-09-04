@@ -1,9 +1,9 @@
 package com.ut.contact.main.detail.detailedit
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ut.contact.common.base.ViewModelType
+import com.ut.contact.extension.getErrorMessage
 import com.ut.contact.main.front.ContactCardItemViewModel
 import com.ut.contact.model.ContactDetailModel
 import com.ut.contact.usecase.EditContactDetailUseCase
@@ -111,7 +111,7 @@ class DetailEditViewModel(private val editContactDetailUseCase: EditContactDetai
 
         override fun onError(e: Throwable) {
             showLoadingSubject.onNext(false)
-            showOutputSubject.onNext("Something's wrong. Please try again")
+            showOutputSubject.onNext(e.getErrorMessage())
         }
     }
 }

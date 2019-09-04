@@ -77,7 +77,7 @@ class DetailActivity : BaseActivity<DetailViewModelType>() {
             .subscribe {
                 Toast.makeText(
                     this,
-                    if (it is String) it else getString(it as Int),
+                    it,
                     Toast.LENGTH_SHORT
                 ).show()
             }.disposedBy(compositeDisposable)

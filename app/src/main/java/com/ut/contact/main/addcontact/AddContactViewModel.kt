@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ut.contact.R
 import com.ut.contact.common.base.ViewModelType
+import com.ut.contact.extension.getErrorMessage
 import com.ut.contact.model.BaseModel
 import com.ut.contact.usecase.AddContactUseCase
 import io.reactivex.Observable
@@ -28,7 +29,7 @@ interface AddContactViewModelType : ViewModelType {
         fun onClickAdd()
     }
     interface Outputs{
-        val shouldShowOutput: Observable<Any>
+        val shouldShowOutput: Observable<String>
         val shouldBackToHome: Observable<Boolean>
         val shouldShowLoading: Observable<Boolean>
     }
@@ -44,7 +45,7 @@ class AddContactViewModel(private val addContactUseCase: AddContactUseCase) : Vi
     var age: Int? = null
     var photo: String? = null
 
-    val showOutputSubject = PublishSubject.create<Any>()
+    val showOutputSubject = PublishSubject.create<String>()
     val backToHomeSubject = PublishSubject.create<Boolean>()
     val showLoadingSubject = PublishSubject.create<Boolean>()
 
@@ -53,7 +54,7 @@ class AddContactViewModel(private val addContactUseCase: AddContactUseCase) : Vi
     override val outputs: AddContactViewModelType.Outputs
         get() = this
 
-    override val shouldShowOutput: Observable<Any>
+    override val shouldShowOutput: Observable<String>
         get() = showOutputSubject
     override val shouldBackToHome: Observable<Boolean>
         get() = backToHomeSubject
@@ -105,7 +106,7 @@ class AddContactViewModel(private val addContactUseCase: AddContactUseCase) : Vi
 
         override fun onError(e: Throwable) {
             showLoadingSubject.onNext(false)
-            showOutputSubject.onNext(R.string.generic_error_message)
+            showOutputSubject.onNext(e.getErrorMessage())
         }
     }
 }

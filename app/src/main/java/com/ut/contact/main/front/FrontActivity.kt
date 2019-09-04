@@ -77,7 +77,7 @@ class FrontActivity : BaseActivity<FrontViewModelType>() {
 
         viewModel.outputs.shouldShowOutput
             .subscribe {
-                Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }.disposedBy(compositeDisposable)
 
         viewModel.outputs.shouldShowRefresh

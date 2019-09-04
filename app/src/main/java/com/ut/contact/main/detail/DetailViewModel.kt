@@ -2,8 +2,8 @@ package com.ut.contact.main.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ut.contact.R
 import com.ut.contact.common.base.ViewModelType
+import com.ut.contact.extension.getErrorMessage
 import com.ut.contact.main.front.ContactCardItemViewModel
 import com.ut.contact.model.BaseModel
 import com.ut.contact.usecase.DeleteContactUseCase
@@ -26,7 +26,7 @@ interface DetailViewModelType : ViewModelType {
     }
 
     interface Outputs {
-        val shouldShowOutput: Observable<Any>
+        val shouldShowOutput: Observable<String>
         val shouldBackToHome: Observable<Boolean>
     }
 }
@@ -38,7 +38,7 @@ class DetailViewModel(private val deleteContactUseCase: DeleteContactUseCase) : 
 
     lateinit var detailData: ContactCardItemViewModel
 
-    val showOutputSubject = PublishSubject.create<Any>()
+    val showOutputSubject = PublishSubject.create<String>()
     val backToHomeSubject = PublishSubject.create<Boolean>()
 
     override val inputs: DetailViewModelType.Inputs
@@ -46,7 +46,7 @@ class DetailViewModel(private val deleteContactUseCase: DeleteContactUseCase) : 
     override val outputs: DetailViewModelType.Outputs
         get() = this
 
-    override val shouldShowOutput: Observable<Any>
+    override val shouldShowOutput: Observable<String>
         get() = showOutputSubject
     override val shouldBackToHome: Observable<Boolean>
         get() = backToHomeSubject
@@ -62,7 +62,7 @@ class DetailViewModel(private val deleteContactUseCase: DeleteContactUseCase) : 
     }
 
     class Factory
-    @Inject constructor(val deleteContactUseCase: DeleteContactUseCase) : ViewModelProvider.Factory {
+    @Inject constructor(private val deleteContactUseCase: DeleteContactUseCase) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
                 return DetailViewModel(deleteContactUseCase) as T
@@ -78,7 +78,7 @@ class DetailViewModel(private val deleteContactUseCase: DeleteContactUseCase) : 
         }
 
         override fun onError(e: Throwable) {
-            showOutputSubject.onNext(R.string.generic_error_message)
+            showOutputSubject.onNext(e.getErrorMessage())
         }
 
     }

@@ -75,11 +75,7 @@ class AddContactActivity : BaseActivity<AddContactViewModelType>() {
         viewModel.outputs.shouldShowOutput
             .subscribe {
                 Toast.makeText(
-                    this,
-                    if (it is String) it else getString(it as Int),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    this, it, Toast.LENGTH_SHORT).show()
             }.disposedBy(compositeDisposable)
 
         viewModel.outputs.shouldBackToHome

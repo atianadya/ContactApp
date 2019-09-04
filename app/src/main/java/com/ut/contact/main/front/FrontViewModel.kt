@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ut.contact.R
 import com.ut.contact.common.base.ViewModelType
+import com.ut.contact.extension.getErrorMessage
 import com.ut.contact.model.ContactsModel
 import com.ut.contact.usecase.GetContactsUseCase
 import io.reactivex.Observable
@@ -27,7 +28,7 @@ interface FrontViewModelType : ViewModelType {
     interface Outputs {
         val shouldShowItems: Observable<List<ContactCardItemViewModel>>
         val shouldShowLoading: Observable<Boolean>
-        val shouldShowOutput: Observable<Int>
+        val shouldShowOutput: Observable<String>
         val shouldShowRefresh: Observable<Boolean>
     }
 }
@@ -39,7 +40,7 @@ class FrontViewModel(private val getContactsUseCase: GetContactsUseCase) : ViewM
 
     private var showItemsSubject = PublishSubject.create<List<ContactCardItemViewModel>>()
     private var showLoadingSubject = PublishSubject.create<Boolean>()
-    private var showOutputSubject = PublishSubject.create<Int>()
+    private var showOutputSubject = PublishSubject.create<String>()
     private var showRefreshSubject = PublishSubject.create<Boolean>()
 
     override val inputs: FrontViewModelType.Inputs
@@ -51,7 +52,7 @@ class FrontViewModel(private val getContactsUseCase: GetContactsUseCase) : ViewM
         get() = showItemsSubject
     override val shouldShowLoading: Observable<Boolean>
         get() = showLoadingSubject
-    override val shouldShowOutput: Observable<Int>
+    override val shouldShowOutput: Observable<String>
         get() = showOutputSubject
     override val shouldShowRefresh: Observable<Boolean>
         get() = showRefreshSubject
@@ -100,7 +101,7 @@ class FrontViewModel(private val getContactsUseCase: GetContactsUseCase) : ViewM
         override fun onError(e: Throwable) {
             showRefreshSubject.onNext(false)
             showLoadingSubject.onNext(false)
-            showOutputSubject.onNext(R.string.generic_error_message)
+            showOutputSubject.onNext(e.getErrorMessage())
         }
     }
 }
