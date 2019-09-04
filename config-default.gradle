@@ -1,0 +1,31 @@
+def globalConfig = rootProject.extensions.getByName("ext")
+
+android {
+    compileSdkVersion globalConfig["androidCompileSdkVersion"]
+    buildToolsVersion globalConfig["buildToolsVersion"]
+    flavorDimensions globalConfig["flavorDimensions"]
+
+    defaultConfig {
+        minSdkVersion globalConfig["androidMinSdkVersion"]
+        targetSdkVersion globalConfig["androidTargetSdkVersion"]
+        testInstrumentationRunner globalConfig["testInstrumentationRunner"]
+
+        buildConfigField 'String', 'base_url', contactBaseUrl
+    }
+
+    productFlavors {
+        development  {
+            def developmentFlavorConfig = globalConfig["developmentFlavorConfig"]
+            versionCode developmentFlavorConfig.versionCode
+            versionName developmentFlavorConfig.versionName
+            dimension developmentFlavorConfig.dimension
+        }
+
+        production {
+            def productionFlavorConfig = globalConfig["productionFlavorConfig"]
+            versionCode productionFlavorConfig.versionCode
+            versionName productionFlavorConfig.versionName
+            dimension productionFlavorConfig.dimension
+        }
+    }
+}

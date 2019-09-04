@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ContactApp</string>
+    <string name="label_add_contact">Add Contact</string>
+    <string name="full_name">%1$s %2$s</string>
+    <string name="age_years_old">%d years old</string>
+    <string name="generic_error_message">Something\'s wrong. Please try again.</string>
+    <string name="label_loading">Loading</string>
+
+    <!-- form labels -->
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_age">Age</string>
+    <string name="label_photo_url">Photo URL</string>
+</resources>
